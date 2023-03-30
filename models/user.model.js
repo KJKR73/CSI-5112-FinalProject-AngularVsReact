@@ -3,18 +3,35 @@ const Joi = require('joi')
 
 // Define the schema
 const userSchema = mongoose.Schema({
-    userId: String,
+    userName: {
+        type: String,
+        _id: false,
+    },
     platforms: [{
-        platformId: String,
-        PlatformLink: String,
+        PlatformLink: {
+            type: String,
+            _id: false,
+        },
     }],
-    connectionIds: [{
-        connectId: String,
-        connectPlatforms: [{
-            connectPlatFormId: String,
-            connectPlatformShared: Boolean,
+    connectionIds: {
+        _id: false,
+        type: [{
+            _id: false,
+            connectId: {
+                _id: false,
+                type: String,
+            },
+            connectPlatforms: {
+                _id: false,
+                type: [{
+                    _id: false,
+                    connectPlatFormId: Object,
+                }],
+                default: []
+            },
         }],
-    }],
+        default: []
+    }
 });
 
 // Create the user object to inject model
@@ -38,7 +55,16 @@ function validateUserOnUpdate(data) {
     return schema.validate(data);
 }
 
+function validateNewUser(data) {
+    const schema = Joi.object({
+        userName: Joi.string().required(),
+        platforms: Joi.array().required(),
+    });
+    return schema.validate(data);
+}
+
 exports.userObj = userObj;
 exports.validateUser = validateUser;
 exports.validateUserOnUpdate = validateUserOnUpdate;
+exports.validateNewUser = validateNewUser
 
