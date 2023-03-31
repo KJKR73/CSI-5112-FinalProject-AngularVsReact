@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
                 _id: false,
                 type: [{
                     _id: false,
-                    connectPlatFormId: Object,
+                    connectPlatFormId: String,
                 }],
                 default: []
             },
@@ -47,10 +47,12 @@ function validateUser(data) {
 }
 
 // Define update user logic
-function validateUserOnUpdate(data) {
+function validateUserOnConnect(data) {
     const schema = Joi.object({
-        userId: Joi.string().required(),
-        shareId: Joi.string().required(),
+        senderId: Joi.string().required(),
+        receiverId: Joi.string().required(),
+        senderData: Joi.array().required(),
+        receiverData: Joi.array().required(),
     });
     return schema.validate(data);
 }
@@ -65,6 +67,6 @@ function validateNewUser(data) {
 
 exports.userObj = userObj;
 exports.validateUser = validateUser;
-exports.validateUserOnUpdate = validateUserOnUpdate;
+exports.validateUserOnConnect = validateUserOnConnect;
 exports.validateNewUser = validateNewUser
 
