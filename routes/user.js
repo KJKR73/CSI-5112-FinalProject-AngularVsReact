@@ -34,7 +34,6 @@ router.post('/getData', async (req, res) => {
 
 router.post('/addUser', async (req, res) => {
     // Validate the user body
-    console.log(req.body)
     const {error} = validateNewUser(req.body)
 
     if (error) {
@@ -42,10 +41,7 @@ router.post('/addUser', async (req, res) => {
     }
 
     // Add the new user if no error
-    const newUser = new userObj({
-        'userName': req.body.userName,
-        'platforms': req.body.platforms,
-    });
+    const newUser = new userObj(req.body);
 
     if (!newUser) {
         return res.status(400).json({
@@ -79,41 +75,43 @@ router.post('/connect', async (req, res) => {
     }
 
     // Fetch both the users
-    const sUser = await userObj.findById(req.body.senderId);
-    const rUser = await userObj.findById(req.body.receiverId);
+    const generatorId = req.body.generatorId;
+    const scannerId = req.body.scannerId;
+    const generatorData = req.body.generatorData;
+    const scannerData = req.body.scannerData;
+    const gUser = await userObj.findById(generatorId);
+    const sUser = await userObj.findById(scannerId);
 
     // See if overlap already exists by checking all the conditions
-    const indexSR = sUser['connectionIds'].findIndex(data => data['connectId'] == rUser['_id']);
-    const indexRS = rUser['connectionIds'].findIndex(data => data['connectId'] == sUser['_id']);
+    const indexSG = sUser['connections'].findIndex(data => data['connectId'] == rUser['_id']);
+    const indexGS = gUser['connections'].findIndex(data => data['connectId'] == gUser['_id']);
 
-    console.log(`IndexSR : ${indexSR}`);
-    console.log(`IndexRS : ${indexRS}`);
+    console.log(`IndexSR : ${indexSG}`);
+    console.log(`IndexRS : ${indexGS}`);
 
     // Handle the two cases
-    if (indexSR != -1 && indexRS != -1) {
+    if (indexSG != -1 && indexGS != -1) {
         // Replace the overlap data
-        sUser['connectionIds'][indexSR]['connectPlatforms'] = req.body.receiverData;
+        sUser['connections'][indexSR]['connectPlatforms'] = generatorData;
 
         // Replace the overlap data
-        rUser['connectionIds'][indexRS]['connectPlatforms'] = req.body.senderData;
+        gUser['connections'][indexRS]['connectPlatforms'] = scannerData;
 
     } else {
-        sUser['connectionIds'].push({
-            "connectId": rUser['_id'],
-            "connectPlatforms": req.body.receiverData
+        sUser['connections'].push({
+            "connectId": gUser['_id'],
+            "connectPlatforms": generatorData
         });
 
         // Replace the overlap data
-        rUser['connectionIds'].push({
+        gUser['connections'].push({
             "connectId": sUser['_id'],
-            "connectPlatforms": req.body.senderData
+            "connectPlatforms": scannerData
         });
     }
-    console.log(sUser);
-    console.log(rUser);
 
     // Push and update the data
-    const ts = await userObj.findByIdAndUpdate(req.body.senderId, sUser, {new: true}).then((data) => {
+    const ts = await userObj.findByIdAndUpdate(generatorId, gUser, {new: true}).then((data) => {
         console.log(data);
     }).catch((err) => {
         if (err) {
@@ -123,10 +121,8 @@ router.post('/connect', async (req, res) => {
         }
     });
 
-    console.log("First")
-
     // Push and update the data
-    const tr = await userObj.findByIdAndUpdate(req.body.receiverId, rUser, {upsert: true}).then((data) => {
+    const tr = await userObj.findByIdAndUpdate(scannerId, sUser, {upsert: true}).then((data) => {
         console.log(data);
     }).catch((err) => {
         if (err) {

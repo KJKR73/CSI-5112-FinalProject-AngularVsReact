@@ -7,13 +7,27 @@ const userSchema = mongoose.Schema({
         type: String,
         _id: false,
     },
-    platforms: [{
-        PlatformLink: {
-            type: String,
-            _id: false,
-        },
-    }],
-    connectionIds: {
+    instagram: {
+        type: String,
+        _id: false,
+        default: ''
+    },
+    facebook: {
+        type: String,
+        _id: false,
+        default: ''
+    },
+    linkedin: {
+        type: String,
+        _id: false,
+        default: ''
+    },
+    snapchat: {
+        type: String,
+        _id: false,
+        default: ''
+    },
+    connections: {
         _id: false,
         type: [{
             _id: false,
@@ -23,10 +37,7 @@ const userSchema = mongoose.Schema({
             },
             connectPlatforms: {
                 _id: false,
-                type: [{
-                    _id: false,
-                    connectPlatFormId: String,
-                }],
+                type: [],
                 default: []
             },
         }],
@@ -49,10 +60,10 @@ function validateUser(data) {
 // Define update user logic
 function validateUserOnConnect(data) {
     const schema = Joi.object({
-        senderId: Joi.string().required(),
-        receiverId: Joi.string().required(),
-        senderData: Joi.array().required(),
-        receiverData: Joi.array().required(),
+        scannerId: Joi.string().required(),
+        generatorId: Joi.string().required(),
+        scannerData: Joi.object().required(),
+        generatorData: Joi.object().required(),
     });
     return schema.validate(data);
 }
@@ -60,7 +71,11 @@ function validateUserOnConnect(data) {
 function validateNewUser(data) {
     const schema = Joi.object({
         userName: Joi.string().required(),
-        platforms: Joi.array().required(),
+        instagram: Joi.string(),
+        facebook: Joi.string(),
+        linkedin: Joi.string(),
+        snapchat: Joi.string(),
+        connections: Joi.array(),
     });
     return schema.validate(data);
 }
