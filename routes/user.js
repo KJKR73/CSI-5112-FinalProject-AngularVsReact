@@ -83,7 +83,7 @@ router.post('/connect', async (req, res) => {
     const sUser = await userObj.findById(scannerId);
 
     // See if overlap already exists by checking all the conditions
-    const indexSG = sUser['connections'].findIndex(data => data['connectId'] == rUser['_id']);
+    const indexSG = sUser['connections'].findIndex(data => data['connectId'] == sUser['_id']);
     const indexGS = gUser['connections'].findIndex(data => data['connectId'] == gUser['_id']);
 
     console.log(`IndexSR : ${indexSG}`);
