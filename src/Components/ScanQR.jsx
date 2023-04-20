@@ -1,18 +1,24 @@
 import { useState } from "react";
 import QrReader from "react-qr-reader";
+import { makeConnection } from "../Utils/api";
+import { useApi } from '../Utils/hooks/useApi.js';
+
 
 function ScanQR({ startScan, setStartScan }) {
 
     const [loadingScan, setLoadingScan] = useState(false);
     const [selected, setSelected] = useState("environment");
-    const [data, setData] = useState("");
+    const [data, submitData] = useApi(() => makeConnection(connectionData));
+
+    let connectionData = '';
 
     const handleScan = async (scanData) => {
         setLoadingScan(true);
         console.log(`loaded data data`, scanData);
+        connectionData = scanData;
         if (scanData && scanData !== "") {
             console.log(`loaded >>>`, scanData);
-            setData(scanData);
+            submitData(scanData);
             setStartScan(false);
             setLoadingScan(false);
             // code for api call
@@ -42,7 +48,7 @@ function ScanQR({ startScan, setStartScan }) {
                 </div>
             )}
             {(loadingScan && startScan) && <p className="flex justify-center">Scanning data ..</p>}
-            {data !== "" && <p>{data}</p>}
+            {/* {data !== "" && <p>{data}</p>} */}
         </div>
     )
 }
