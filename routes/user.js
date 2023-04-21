@@ -29,7 +29,20 @@ router.post('/getData', async (req, res) => {
         });
     }
 
-    return res.status(200).json(userData);
+    // Loop and collect names of the friends
+    var ouserData = userData.toObject();
+    var uc = [];
+    for (const ele of ouserData.connections) {
+        await userObj.findById(ele.connectId).then((data) => {
+            var temp = {...ele};
+            temp.userName = data.userName;
+            uc.push(temp);
+            console.log(uc);
+        });
+    }
+    // Reupdate the data
+    ouserData.connections = uc;
+    return res.status(200).json(ouserData);
 })
 
 router.post('/addUser', async (req, res) => {
