@@ -1,17 +1,31 @@
 import './App.css';
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState, useEffect } from 'react';
 import Header from './Components/Header';
 import History from './Components/History';
 import Interaction from './Components/Interaction';
-import { fetchConnection, makeConnection } from './Utils/api';
-import { useApi } from './Utils/hooks/useApi';
 
 // code for fetching data
 
 function App() {
 
-  let id = 1;
-  const [friendData, setFriendData] = useApi(() => fetchConnection(id));
+  let id = "6442bf2292b895822b0f3045";
+  const baseURL = 'http://localhost:9999/user/getData';
+  const [friendData, setUsers] = useState([])
+
+  useEffect(() => {
+    axios
+      .post(baseURL, {
+        'userId': id
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [baseURL, id])
+
 
   return (
     <div className="bg-gray-100 w-full h-screen">
@@ -19,7 +33,7 @@ function App() {
       <Interaction />
       <History
         Show={true}
-        data={friendData}
+        userData={friendData}
       />
     </div>
   );

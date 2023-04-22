@@ -32,10 +32,10 @@ function Table({ columns, data }) {
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map((cell, index) => {
-                                if (index === 0) {
+                                if (index === 0 || cell.value === "Not Shared") {
                                     return <td className={`py-3 text-center text-xs text-gray-500 font-medium`} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 } else
-                                    return <td className={`py-3 text-center text-xs text-gray-500 underline cursor-pointer`} {...cell.getCellProps()}><a href='https://karman-1102.netlify.app'>{cell.render('Cell')}</a> </td>
+                                    return <td className={`py-3 text-center text-xs text-gray-500 underline cursor-pointer`} {...cell.getCellProps()}><a href={"https://" + String(cell.value)} target="_blank">{cell.render('Cell')}</a> </td>
                             })}
                         </tr>
                     )
@@ -45,7 +45,7 @@ function Table({ columns, data }) {
     )
 }
 
-function History() {
+function History({ show, userData }) {
     const columns = React.useMemo(
         () => [
 
@@ -92,7 +92,28 @@ function History() {
         []
     )
 
-    const data = React.useMemo(() => [{ Friend_Name: 'Karman Singh', Facebook_ID: 'KarmanSi', Instagram_ID: 'karman1102', Github_ID: 'karman1102', Linkedin_ID: 'karman1102' }, { Friend_Name: 'Karanjot Singh', Facebook_ID: 'AngelPriya', Instagram_ID: 'hot_guy_100', Github_ID: 'hello_kjkr', Linkedin_ID: 'karankjkr' }], [])
+    let friendDataObj = [];
+
+    if (userData.connections) {
+
+        userData.connections.forEach(element => {
+            let tempObj = {};
+            let platforms = element.connectPlatforms[0]
+            tempObj["Friend_Name"] = element.userName;
+            tempObj["Facebook_ID"] = platforms.facebook ? platforms["facebook"] : "Not Shared";
+            tempObj["Instagram_ID"] = platforms.instagram ? platforms["instagram"] : "Not Shared";
+            tempObj["Linkedin_ID"] = platforms.linkedin ? platforms["Linkedin_ID"] : "Not Shared";
+            tempObj["Github_ID"] = platforms.github ? platforms["github"] : "Not Shared";
+
+            friendDataObj.push(tempObj)
+        });
+        console.log(friendDataObj)
+
+    }
+
+
+
+    const data = React.useMemo(() => friendDataObj, [friendDataObj])
 
     return (
         <Table columns={columns} data={data} />

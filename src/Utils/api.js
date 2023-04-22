@@ -1,7 +1,7 @@
 import axios from "axios";
 // import axiosWithAuth from "./../axiosWithAuth";
 
-const baseURL = 'https://localhost/';
+const baseURL = 'localhost:9999/user/';
 
 
 export const fetchConnection = async (user_id) => {
@@ -9,14 +9,14 @@ export const fetchConnection = async (user_id) => {
     let data = new FormData();
 
     let data_object = {
-        'glid': user_id
+        'userId': user_id
     }
     for (const [key, value] of Object.entries(data_object)) {
         data.append(key, value)
     }
     try {
         const response =
-            await axios.post(`${baseURL}/fetch`, data);
+            await axios.post(`${baseURL}/getData`, data);
         return await response.data;
     } catch (err) {
         console.log(`Error: ${err.response.data.message}`);
