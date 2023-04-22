@@ -1,0 +1,15 @@
+<div class="histTable">
+    <div class="name"><a>Friend Name</a></div>
+    <div class="fb"><a>Facebook</a></div>
+    <div class="insta"><a>Instagram</a></div>
+    <div class="git"><a>Github</a></div>
+    <div class="lin"><a>Snapchat</a></div>
+</div>
+<div>
+    <div *ngFor="let conns of historyData.connections" class="tableData">
+        <div class="td">{{conns.userName}}</div>
+        <div class="td">{{conns.connectPlatforms[0].facebook}}</div>
+        <div class="td">{{conns.connectPlatforms[0].instagram}}</div>
+        <div class="td">{{conns.connectPlatforms[0].github}}</div>
+        <div class="td">{{conns.connectPlatforms[0].snapchat}}</div>
+</div>

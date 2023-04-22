@@ -1,0 +1,30 @@
+header {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table {
+    padding: 10px;
+    background-color: rgb(196,218,251);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+}
+
+.h1 {
+    font-size: 20px;
+    font-weight: bold;
+    align-items: left;
+}
+
+.h2 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+}

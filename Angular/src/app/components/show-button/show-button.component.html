@@ -1,0 +1,27 @@
+<div class="ShowAFriend">
+    <button class="btn">Show QR Code</button>
+    <div class="OptionBox">
+        <p> What Details do you want to share</p>
+        <input type="checkbox"
+            name="Facebook"
+            value="facebook"
+            (change)="handleFacebook()"
+        /><label for="Facebook">Facebook</label>
+        <input type="checkbox"
+            name="Instagram"
+            value="instagram"
+            (change)="handleInstagram()"
+        /><label for="Instagram">Instagram</label>
+        <input type="checkbox"
+            name="LinkedIn" 
+            value="linkedin"
+            (change)="handleLinkedin()"
+        /><label for="LinkedIn">LinkedIn</label>
+        <input type="checkbox"
+            name="Github" 
+            value="github"
+            (change)="handleGithub()"
+        /><label for="Github">Github</label>
+        <app-show-qr-code class="qr" [data]="getQrCode()"></app-show-qr-code> 
+    </div>
+</div>

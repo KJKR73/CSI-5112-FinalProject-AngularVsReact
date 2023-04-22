@@ -1,0 +1,20 @@
+.ShowAFriend {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 5vh;
+}
+
+.OptionBox {
+    background-color: rgb(159,236,177);
+    margin: 0px 40% 0px 40%;
+}
+
+input {
+    display: inline;
+}
+
+label {
+    padding: 0px 10px 0px 0px;
+    display: inline;
+}
+

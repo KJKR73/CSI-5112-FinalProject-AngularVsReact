@@ -1,0 +1,48 @@
+.histTable {
+    padding: 10px;
+    display: grid;
+    background-color: rgb(196,218,251);
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.tableData {
+    background-color: white;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.td {
+    margin: 2px 0px 2px 0px;
+    border-style: ridge;
+    border-width: 1px 0px 1px 0px;
+}
+
+.name {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: left;
+}
+
+.insta {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: left;
+}
+
+.fb {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: left;
+}
+
+.git {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: left;
+}
+
+.lin {
+    font-size: 15px;
+    font-weight: bold;
+    align-items: left;
+}
