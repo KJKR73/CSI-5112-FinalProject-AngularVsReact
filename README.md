@@ -5,10 +5,9 @@
 - Karanjot Singh Saggu: 300239215 
 - Sahej Singh Chandok: 300288904 
 
-
 # Prerequisites 
-Install Node.js from https://nodejs.org/en/download
-Install npm from https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- Install Node.js from https://nodejs.org/en/download
+- Install npm from https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 
 # Backend #######################################
